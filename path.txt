@@ -1,0 +1,20 @@
+LiveEventMap/
+├─ public/
+│   └─ index.html                   # HTML หลักของ React
+│
+├─ src/
+│   ├─ components/
+│   │   ├─ MapView.jsx              # แสดงแผนที่ + Marker + Popup
+│   │   ├─ EventSidebar.jsx         # Sidebar แสดงกิจกรรม + Filter
+│   │   └─ EventForm.jsx            # ฟอร์มสร้างกิจกรรมใหม่
+│   │
+│   ├─ App.jsx                       # รวม MapView + Sidebar + Form
+│   ├─ index.jsx                     # Entry point React
+│   └─ socket.js                     # ถ้าใช้ Socket.IO (ในตัวอย่างนี้ไม่ใช้ก็ลบได้)
+│
+├─ server/
+│   └─ index.js                      # Node.js + Express server + REST API
+│
+├─ package.json                       # Dependencies frontend + scripts
+├─ tailwind.config.js                  # ตั้งค่า Tailwind CSS
+└─ postcss.config.js                   # ตั้งค่า Tailwind/PostCSS

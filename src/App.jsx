@@ -1,15 +1,20 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MapView from './components/Map/MapView'
 import Navbar from './components/Navbar'
 import { Button } from './components/ui/button'
 import './index.css'
+import HomePage from './pages/HomePage'
+import { useState } from 'react'
 
 function App() {
 
   return (
-    <><div className="bg-[#f9fafb] h-screen ">
-      <Navbar />
-      <MapView />
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
