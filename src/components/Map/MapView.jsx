@@ -2,8 +2,28 @@ import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEventStore } from '@/store/useEventStore'
 import Layers from './Layers'
+import { Button } from '@/components/ui/button'
 
+const DEFAULT_POSITION = [13.74463184683733, 100.56467950344087]
+const DEFAULT_ZOOM = 20
 
+const ResetButton = () => {
+    const map = useMap()
+    const handleReset = () => {
+        map.setView(DEFAULT_POSITION, DEFAULT_ZOOM)
+    }
+
+    return (
+        <div className="absolute top-4 right-20 z-1000">
+            <Button
+                onClick={handleReset}
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md"
+            >
+                รีเซ็ตตำแหน่ง
+            </Button>
+        </div>
+    )
+}
 
 const MapView = () => {
     const categoryevent = ['all', 'music', 'food', 'drawing', 'spot']
@@ -14,45 +34,42 @@ const MapView = () => {
             click(e) {
                 if (adding) {
                     const { lat, lng } = e.latlng
-                    console.log(lat, lng);
+                    console.log(lat, lng)
                     setPending({ lat, lng })
                 }
-                return
-
             }
         })
-        return
+        return null
     }
-    return (
-        <div className="p-4 space-y-4">
-            <div className="space-y-2">
-                <h1 className="text-2xl font-semibold">หมวดหมู่กิจกรรม</h1>
-                <div className="flex gap-2 mt-2">
-                    {categoryevent.map((item) => (
-                        <div
-                            key={item}
-                            className="bg-linear-to-r from-blue-600 via-blue-400 to-blue-200 px-6 py-2 rounded-full text-white font-medium"
-                        >
-                            {item}
-                        </div>
-                    ))}
-                </div>
-            </div>
 
-            <div className=" ">
+    return (
+        <div className="flex flex-col flex-1 relative">
+            {adding && (
+                <div className="bg-amber-100 h-10 flex justify-center items-center">
+                    <h1 className="text-lg font-semibold text-amber-600">
+                        !!!คลิกตามจุดที่ต้องการเพิ่ม Event
+                    </h1>
+                </div>
+            )}
+
+            <div className="flex-1 relative">
                 <MapContainer
-                    center={[13.744830435549279, 100.56469023227693]}
-                    zoom={20}
+                    center={DEFAULT_POSITION}
+                    zoom={DEFAULT_ZOOM}
                     scrollWheelZoom={true}
-                    className='w-full h-[500px] rounded-md'
+                    className="absolute inset-0 w-full h-full"
                 >
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; OpenStreetMap contributors"
+                    />
                     <Layers />
                     <ClickToAdd />
-
+                    <ResetButton />
                 </MapContainer>
-
             </div>
         </div>
     )
 }
+
 export default MapView

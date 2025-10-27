@@ -1,12 +1,11 @@
 import AddEventModal from "@/components/Event/AddEventModal"
+import ShowEvent from "@/components/Event/ShowEvent"
 import MapView from "@/components/Map/MapView"
 import Navbar from "@/components/Navbar"
 import { useEventStore } from "@/store/useEventStore"
 
 const HomePage = () => {
     const { adding, pending } = useEventStore()
-    console.log(pending);
-    
     return (
 
         <div className="bg-[#f9fafb] h-screen ">
@@ -14,7 +13,10 @@ const HomePage = () => {
                 pending && <AddEventModal />
             }
             <Navbar />
-            <MapView />
+            <div className="flex h-screen">
+                <ShowEvent />
+                <MapView />
+            </div>
         </div>
     )
 }
