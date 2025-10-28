@@ -1,8 +1,9 @@
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEventStore } from '@/store/useEventStore'
 import Layers from './Layers'
 import { Button } from '@/components/ui/button'
+import { useEffect } from 'react'
 
 const DEFAULT_POSITION = [13.74463184683733, 100.56467950344087]
 const DEFAULT_ZOOM = 20
@@ -25,9 +26,28 @@ const ResetButton = () => {
     )
 }
 
+const MapTargetHandler = () => {
+    const map = useMap()
+    const mapTarget = useEventStore((state) => state.mapTarget)
+    const setMapTarget = useEventStore((state) => state.setMapTarget)
+
+
+    useEffect(() => {
+        if (mapTarget) {
+            map.setView([mapTarget.lat, mapTarget.lng], 20, { animate: true })
+            setMapTarget(null)
+
+        }
+    }, [mapTarget])
+
+    return null
+}
+
 const MapView = () => {
-    const categoryevent = ['all', 'music', 'food', 'drawing', 'spot']
-    const { setPending, adding } = useEventStore()
+    const { setPending, adding, event, mapTarget } = useEventStore()
+    const eventall = event?.event || []
+
+
 
     const ClickToAdd = () => {
         useMapEvents({
@@ -66,6 +86,22 @@ const MapView = () => {
                     <Layers />
                     <ClickToAdd />
                     <ResetButton />
+                    <MapTargetHandler />
+
+                    {eventall.map((item) => (
+                        <Marker
+                            key={item.id}
+                            position={[item.location.lat, item.location.lng]}
+                        >
+                            <Popup>
+                                <div className="p-2 bg-white rounded-xl shadow-lg text-center">
+                                    <h3 className="text-lg font-semibold text-gray-800">{item.activityDetail}</h3>
+                                    <p className="text-sm text-gray-500">พิกัด: {item.building}</p>
+                                </div>
+                            </Popup>
+                            <Tooltip direction='top'>{item.activityDetail}</Tooltip>
+                        </Marker>
+                    ))}
                 </MapContainer>
             </div>
         </div>

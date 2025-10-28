@@ -5,9 +5,10 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AddEventModal = () => {
-    const { adding, toggleAdding, pending, setPending } = useEventStore()
+    const { addEvent, toggleAdding, pending, setPending } = useEventStore()
     const { lat, lng } = pending
 
     const [formData, setFormData] = useState({
@@ -17,10 +18,19 @@ const AddEventModal = () => {
         time: "",
         date: "",
         category: '',
-        location: ''
+        location: pending || {}
     })
-
     console.log(formData);
+
+
+    const handleAddEvent = async () => {
+
+        const res = await addEvent(formData)
+        toast.success(res.message)
+        setPending(null)
+        toggleAdding()
+
+    }
 
     const onChange = (e) => {
         const { name, value } = e.target
@@ -31,15 +41,7 @@ const AddEventModal = () => {
 
     }
 
-    useEffect(() => {
-        if (pending) {
-            setFormData(prev => ({
-                ...prev,
-                location: { lat: pending.lat, lng: pending.lng }
-            }));
-        }
-    }, [pending]);
-
+   
     return (
         <div className="fixed z-9999 inset-0 bg-black/50 flex justify-center items-center" onClick={() => { toggleAdding(), setPending(null) }}>
             <div className="bg-white p-6 rounded-2xl w-[600px] space-y-4" onClick={(e) => e.stopPropagation()}>
@@ -47,7 +49,7 @@ const AddEventModal = () => {
                     <h3 className="text-xl font-semibold text-gray-600 mb-2">เพิ่มEvent</h3>
                     <X className="text-gray-600 w-6 h-6 cursor-pointer" onClick={() => { toggleAdding(), setPending(null) }} />
                 </div>
-                <div className="font-semibold text-lg ">Lat:{lat.toFixed(6)}, Lng{lng.toFixed(6)}</div>
+                <div className="font-semibold text-lg ">Lat:{lat.toFixed(6)}, Lng:{lng.toFixed(6)}</div>
                 <Input required type={'text'} className={'py-6 '} placeholder={'ตึกอาคารสถานที่'} name='building' value={formData.building} onChange={onChange} />
                 <Textarea required type={'text'} className={'py-6 '} placeholder={'รายละเอียดกิจกรรม'} name='activityDetail' value={formData.activityDetail} onChange={onChange} />
                 <Textarea required type={'text'} className={'py-6 '} placeholder={'รายละเอียดสถานที่ เช่น ชั้น, ห้อง'} name='locationDetail' value={formData.locationDetail} onChange={onChange} />
@@ -60,7 +62,7 @@ const AddEventModal = () => {
                 </select>
 
                 <div className="space-x-2 ">
-                    <Button className={'bg-blue-500 hover:bg-blue-600'}>Save</Button>
+                    <Button onClick={handleAddEvent} className={'bg-blue-500 hover:bg-blue-600'}>Save</Button>
                     <Button variant={'outline'} > Cancel</Button>
                 </div>
             </div>

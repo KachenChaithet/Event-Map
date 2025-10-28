@@ -4,16 +4,25 @@ import Navbar from './components/Navbar'
 import { Button } from './components/ui/button'
 import './index.css'
 import HomePage from './pages/HomePage'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { api } from './lib/api'
+import { useEventStore } from './store/useEventStore'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
+  const { fetchEvent } = useEventStore()
 
+
+  useEffect(() => {
+    fetchEvent()
+  }, [fetchEvent])
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<HomePage />} />
         </Routes>
+        <Toaster position='top-right' reverseOrder={false}/>
       </BrowserRouter>
     </>
   )

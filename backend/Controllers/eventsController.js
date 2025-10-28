@@ -41,7 +41,7 @@ export const createEvent = async (req, res) => {
             }
         })
 
-        res.status(201).json(newEvent)
+        res.status(201).json({ message: 'create success', newEvent })
     } catch (error) {
         console.error(error)
         res.status(500).json({ error: "Failed to create event" })
@@ -115,7 +115,7 @@ export const deleteEvent = async (req, res) => {
 
 
 
-        res.json({ messge: 'sucess', remove })
+        res.json({ message: 'delete sucess', remove })
     } catch (error) {
         console.error(error)
         res.status(500).json({ error: "Failed to create event" })
