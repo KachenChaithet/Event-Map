@@ -15,7 +15,7 @@ const ResetButton = () => {
     }
 
     return (
-        <div className="absolute top-4 right-20 z-1000">
+        <div className="absolute top-5 right-40 z-1000">
             <Button
                 onClick={handleReset}
                 className="bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md"
@@ -77,7 +77,7 @@ const MapView = () => {
                     center={DEFAULT_POSITION}
                     zoom={DEFAULT_ZOOM}
                     scrollWheelZoom={true}
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full z-9"
                 >
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

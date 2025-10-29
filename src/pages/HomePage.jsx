@@ -1,4 +1,5 @@
 import AddEventModal from "@/components/Event/AddEventModal"
+import CardEvent from "@/components/Event/CardEvent"
 import ShowEvent from "@/components/Event/ShowEvent"
 import MapView from "@/components/Map/MapView"
 import Navbar from "@/components/Navbar"
@@ -13,7 +14,7 @@ const HomePage = () => {
                 pending && <AddEventModal />
             }
             <Navbar />
-            <div className="flex h-screen">
+            <div className="flex h-screen flex-wrap">
                 <ShowEvent />
                 <MapView />
             </div>

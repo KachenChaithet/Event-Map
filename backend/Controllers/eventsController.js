@@ -76,7 +76,7 @@ export const updateEvent = async (req, res) => {
             }
         })
 
-        res.status(201).json(updateEvent)
+        res.status(201).json({ message: 'update sucess', updateEvent })
     } catch (error) {
         console.error(error)
         res.status(500).json({ error: "Failed to create event" })

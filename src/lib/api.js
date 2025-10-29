@@ -21,6 +21,14 @@ export const api = {
     async delete(path, id) {
         const { data } = await client.delete(`${path}/${id}`)
         return data
+    },
+    async getById(path, id) {
+        const { data } = await client.get(`${path}/${id}`)
+        return data
+    },
+    async update(path, payload, id) {
+        const { data } = await client.put(`${path}/${id}`, payload)
+        return data
     }
 
 }

@@ -7,11 +7,13 @@ export const EventStore = (set, get) => ({
     pending: null,
     event: [],
     mapTarget: null,
+    edit: null,
 
 
     toggleAdding: () => set(prev => ({ adding: !prev.adding })),
     setPending: (value) => set({ pending: value }),
     setMapTarget: (value) => set({ mapTarget: value }),
+    setEdit: (value) => set({ edit: value }),
 
     fetchEvent: async () => {
         try {
@@ -44,7 +46,29 @@ export const EventStore = (set, get) => ({
             console.log(error);
 
         }
+    },
+
+    getById: async (id) => {
+        try {
+            const res = await api.getById('/event/getById', id)
+            set({ edit: res.event })
+            return res
+        } catch (error) {
+            console.log(error);
+
+        }
+    },
+
+    updateEvent: async (id, payload) => {
+        try {
+            const res = await api.update('/event/update', payload, id)
+            await get().fetchEvent()
+            return res
+        } catch (error) {
+            console.log(error)
+        }
     }
+
 })
 
 
