@@ -53,8 +53,8 @@ const ShowEvent = () => {
               <p className="text-gray-600 text-sm">{moment(item.date).format('DD/MM/YYYY')}</p>
             </div>
             <div className="space-x-2">
-              <Button variant={'outline'} className={'hover:bg-yellow-200 p-2'} onClick={() => { handleEdit(item.id), setPending(item.location), toggleAdding() }}>🛠️</Button>
-              <Button variant={'outline'} className={'hover:bg-red-200 p-2'} onClick={() => handleDelete(item.id)}>🗑️</Button>
+              <Button variant={'outline'} className={'hover:bg-yellow-200 p-2'} onClick={(e) => { e.stopPropagation(),handleEdit(item.id), setPending(item.location), toggleAdding() }}>🛠️</Button>
+              <Button variant={'outline'} className={'hover:bg-red-200 p-2'} onClick={(e) => { e.stopPropagation(),handleDelete(item.id)}}>🗑️</Button>
             </div>
           </div>
         </div>
